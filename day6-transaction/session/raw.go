@@ -10,7 +10,11 @@ import (
 )
 
 type Session struct {
-	db      *sql.DB
+	db *sql.DB
+
+	// 用于回滚操作
+	tx *sql.Tx
+
 	sql     strings.Builder
 	sqlVars []interface{}
 
@@ -22,6 +26,15 @@ type Session struct {
 	// 操作语句与操作值
 	clause clause.Clause
 }
+
+type CommonDB interface {
+	Query(query string, args ...interface{}) (*sql.Rows, error)
+	QueryRow(query string, args ...interface{}) *sql.Row
+	Exec(query string, args ...interface{}) (sql.Result, error)
+}
+
+var _ CommonDB = (*sql.DB)(nil)
+var _ CommonDB = (*sql.Tx)(nil)
 
 func New(db *sql.DB, dialect dialect.Dialect) *Session {
 	return &Session{
@@ -36,7 +49,11 @@ func (s *Session) Clear() {
 	s.clause = clause.Clause{}
 }
 
-func (s *Session) DB() *sql.DB {
+// DB returns tx if a tx begins. otherwise return *sql.DB
+func (s *Session) DB() CommonDB {
+	if s.tx != nil {
+		return s.tx
+	}
 	return s.db
 }
 
