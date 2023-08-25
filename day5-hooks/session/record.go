@@ -11,6 +11,8 @@ func (s *Session) Insert(values ...interface{}) (int64, error) {
 	// recordValues 保存每个对象的值
 	recordValues := make([]interface{}, 0)
 	for _, value := range values {
+		// hooks，将测试案例的Id + 1000
+		s.CallMethod(BeforeInsert, value)
 		table := s.Model(value).RefTable()
 		s.clause.Set(clause.INSERT, table.Name, table.FieldNames)
 		recordValues = append(recordValues, table.RecordValues(value))
@@ -22,11 +24,16 @@ func (s *Session) Insert(values ...interface{}) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+	s.CallMethod(AfterInsert, nil)
 	return result.RowsAffected()
 }
 
 // reflect.New(destType) 将type类型转化为value类型
 func (s *Session) Find(values interface{}) error {
+
+	// hooks
+	s.CallMethod(BeforeQuery, nil)
+
 	destSlice := reflect.Indirect(reflect.ValueOf(values))
 	destType := destSlice.Type().Elem()
 	table := s.Model(reflect.New(destType).Elem().Interface()).RefTable()
@@ -48,6 +55,10 @@ func (s *Session) Find(values interface{}) error {
 		if err := rows.Scan(values...); err != nil {
 			return err
 		}
+
+		// hooks
+		s.CallMethod(AfterQuery, dest.Addr().Interface())
+
 		// destSlice 间接指向入参values，因此修改destSlice也会修改入参values，
 		destSlice.Set(reflect.Append(destSlice, dest))
 	}
