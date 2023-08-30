@@ -1,6 +1,6 @@
 package session
 
-import "day6-mysql/log"
+import "day7-mysql/log"
 
 // 封装事务的 Begin、Commit 和 Rollback 三个接口
 

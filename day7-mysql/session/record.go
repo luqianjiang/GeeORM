@@ -1,7 +1,7 @@
 package session
 
 import (
-	"day6-mysql/clause"
+	"day7-mysql/clause"
 	"errors"
 	"reflect"
 )

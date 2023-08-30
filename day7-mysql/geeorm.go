@@ -2,9 +2,10 @@ package geeorm
 
 import (
 	"database/sql"
-	"day6-transaction/dialect"
-	"day6-transaction/log"
-	"day6-transaction/session"
+	"day7-mysql/dialect"
+	"day7-mysql/log"
+	"day7-mysql/session"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type Engine struct {

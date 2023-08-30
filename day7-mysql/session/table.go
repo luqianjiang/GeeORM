@@ -1,8 +1,8 @@
 package session
 
 import (
-	"day6-mysql/log"
-	"day6-mysql/schema"
+	"day7-mysql/log"
+	"day7-mysql/schema"
 	"fmt"
 	"reflect"
 	"strings"

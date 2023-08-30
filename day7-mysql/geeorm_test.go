@@ -1,15 +1,17 @@
 package geeorm
 
 import (
-	"day6-transaction/session"
+	"day7-mysql/session"
 	"errors"
+	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/mattn/go-sqlite3"
 	"testing"
 )
 
 func OpenDB(t *testing.T) *Engine {
 	t.Helper()
-	engine, err := NewEngine("sqlite3", "gee.db")
+	dsn := "root:184903@tcp(127.0.0.1:3306)/gormdb"
+	engine, err := NewEngine("mysql", dsn)
 	if err != nil {
 		t.Fatal("failed to connect", err)
 	}

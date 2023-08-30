@@ -2,10 +2,10 @@ package session
 
 import (
 	"database/sql"
-	"day6-mysql/clause"
-	"day6-mysql/dialect"
-	"day6-mysql/log"
-	"day6-mysql/schema"
+	"day7-mysql/clause"
+	"day7-mysql/dialect"
+	"day7-mysql/log"
+	"day7-mysql/schema"
 	"strings"
 )
 

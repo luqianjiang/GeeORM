@@ -1,7 +1,7 @@
 package session
 
 import (
-	"day6-mysql/log"
+	"day7-mysql/log"
 	"fmt"
 	"testing"
 )

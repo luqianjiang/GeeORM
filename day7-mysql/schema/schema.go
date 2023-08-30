@@ -1,7 +1,7 @@
 package schema
 
 import (
-	"day6-mysql/dialect"
+	"day7-mysql/dialect"
 	"go/ast"
 	"reflect"
 )
